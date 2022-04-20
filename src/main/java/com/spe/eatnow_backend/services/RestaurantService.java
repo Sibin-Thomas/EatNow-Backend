@@ -1,8 +1,15 @@
 package com.spe.eatnow_backend.services;
 
 import com.spe.eatnow_backend.entities.MenuItem;
+import com.spe.eatnow_backend.entities.OrderItem;
+import com.spe.eatnow_backend.entities.Orders;
+import com.spe.eatnow_backend.entities.User;
 import com.spe.eatnow_backend.repositories.MenuItemRepository;
+import com.spe.eatnow_backend.repositories.OrderItemRepository;
+import com.spe.eatnow_backend.repositories.OrderRepository;
+import com.spe.eatnow_backend.repositories.UserRepository;
 import com.spe.eatnow_backend.requestBodies.MenuItemRequestBody;
+import com.spe.eatnow_backend.requestBodies.OrderRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +20,12 @@ import java.util.ArrayList;
 public class RestaurantService {
     @Autowired
     private MenuItemRepository menuItemRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     public String addMenuItem(MenuItemRequestBody menuItemRequestBody)
     {
@@ -28,4 +41,30 @@ public class RestaurantService {
     {
         return menuItemRepository.findByRestaurantId(restaurantId);
     }
+
+    public ArrayList<User> findRestaurants(String searchValue)
+    {
+        ArrayList<User> restaurantList = userRepository.findByType("Restaurant");
+        return restaurantList;
+    }
+
+    public String placeOrder(OrderRequestBody orderRequestBody)
+    {
+        ArrayList<Orders> orders = orderRepository.findByUserId(orderRequestBody.getuserId());
+        Integer orderNumber = orders.size()+1;
+        Orders order = new Orders();
+        order.setOrderNumber(orderNumber);
+        order.setUserId(orderRequestBody.getuserId());
+        order.setStatus("PENDING");
+        order.setTotal(orderRequestBody.getOrderTotal());
+        orderRepository.save(order);
+
+        order = orderRepository.findByUserIdAndOrderNumber(orderRequestBody.getuserId(), orderNumber);
+        for (Integer menuId: orderRequestBody.getMenuItemIds())
+        {
+            orderItemRepository.save(new OrderItem(order.getorderId(), menuId));
+        }
+        return "success";
+    }
+
 }

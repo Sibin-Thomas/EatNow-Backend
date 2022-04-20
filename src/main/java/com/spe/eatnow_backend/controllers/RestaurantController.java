@@ -3,6 +3,7 @@ package com.spe.eatnow_backend.controllers;
 import com.spe.eatnow_backend.entities.MenuItem;
 import com.spe.eatnow_backend.entities.User;
 import com.spe.eatnow_backend.requestBodies.MenuItemRequestBody;
+import com.spe.eatnow_backend.requestBodies.OrderRequestBody;
 import com.spe.eatnow_backend.requestBodies.UserRequestBody;
 import com.spe.eatnow_backend.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,13 @@ public class RestaurantController {
     public ArrayList<MenuItem> findMenuItems(@RequestBody MenuItemRequestBody menuItemRequestBody)
     {
         return restaurantService.findByRestaurantId(menuItemRequestBody.getRestaurant_id());
+    }
+
+    @PostMapping(value = "/placeOrder")
+    @CrossOrigin(origins = "*")
+    public String placeOrder(@RequestBody OrderRequestBody orderRequestBody)
+    {
+        return restaurantService.placeOrder(orderRequestBody);
     }
 
 }
