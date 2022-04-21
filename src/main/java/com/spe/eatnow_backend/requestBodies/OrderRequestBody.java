@@ -6,6 +6,15 @@ public class OrderRequestBody {
     Integer userId;
     ArrayList<Integer> menuItemIds;
     Integer orderTotal;
+    Integer restaurantId;
+
+    public Integer getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Integer restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 
     public Integer getOrderTotal() {
         return orderTotal;
@@ -15,9 +24,10 @@ public class OrderRequestBody {
         this.orderTotal = orderTotal;
     }
 
-    public OrderRequestBody(Integer userId, ArrayList<Integer> menuItemIds) {
-        this.userId = userId;
+    public OrderRequestBody(ArrayList<Integer> menuItemIds, Integer orderTotal, Integer restaurantId) {
         this.menuItemIds = menuItemIds;
+        this.orderTotal = orderTotal;
+        this.restaurantId = restaurantId;
     }
 
     public Integer getuserId() {

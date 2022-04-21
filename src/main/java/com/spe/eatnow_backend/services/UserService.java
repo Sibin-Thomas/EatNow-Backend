@@ -1,15 +1,22 @@
 package com.spe.eatnow_backend.services;
 
+import com.spe.eatnow_backend.entities.Orders;
 import com.spe.eatnow_backend.entities.User;
+import com.spe.eatnow_backend.repositories.OrderRepository;
 import com.spe.eatnow_backend.repositories.UserRepository;
 import com.spe.eatnow_backend.requestBodies.UserRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public void addUser(UserRequestBody userRequestBody)
     {

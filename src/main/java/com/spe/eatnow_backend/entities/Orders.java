@@ -1,5 +1,7 @@
 package com.spe.eatnow_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,11 +11,70 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer orderId;
 
-    public Integer userId;
-
     public String status;
     
     public Integer orderNumber;
+
+//    public Integer userId;
+//
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Integer restaurantId;
+//
+//    public Integer getRestaurantId() {
+//        return restaurantId;
+//    }
+//
+//    public void setRestaurantId(Integer restaurantId) {
+//        this.restaurantId = restaurantId;
+//    }
+//    public Orders(Integer userId, String status, Integer orderNumber, Integer restaurantId, Integer total) {
+//        this.userId = userId;
+//        this.status = status;
+//        this.orderNumber = orderNumber;
+//        this.restaurantId = restaurantId;
+//        this.total = total;
+//    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private User restaurant;
+
+    @JsonBackReference
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @JsonBackReference
+    public User getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(User restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Orders(String status, Integer orderNumber, User user, User restaurant, Integer total) {
+        this.status = status;
+        this.orderNumber = orderNumber;
+        this.user = user;
+        this.restaurant = restaurant;
+        this.total = total;
+    }
 
     public Integer getOrderNumber() {
         return orderNumber;
@@ -31,14 +92,6 @@ public class Orders {
 
     public void setorderId(Integer orderId) {
         this.orderId = orderId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getStatus() {
@@ -60,10 +113,4 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(Integer orderId, Integer userId, String status, Integer total) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.status = status;
-        this.total = total;
-    }
 }

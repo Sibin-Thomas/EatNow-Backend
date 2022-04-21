@@ -1,6 +1,9 @@
 package com.spe.eatnow_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -35,6 +38,24 @@ public class User {
     }
 
     public User() {
+    }
+
+    @OneToMany(mappedBy = "user")
+    @PrimaryKeyJoinColumn
+    private List<Orders> userOrders;
+
+    @OneToMany(mappedBy = "restaurant")
+    @PrimaryKeyJoinColumn
+    private List<Orders> restaurantOrders;
+
+    @JsonManagedReference
+    public List<Orders> getUserOrders() {
+        return userOrders;
+    }
+
+    @JsonManagedReference
+    public List<Orders> getRestaurantOrders() {
+        return restaurantOrders;
     }
 
     public User(String username, String password, String type, String address, String phone, String email) {

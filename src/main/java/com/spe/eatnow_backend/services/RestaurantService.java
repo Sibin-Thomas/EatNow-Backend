@@ -50,16 +50,19 @@ public class RestaurantService {
 
     public String placeOrder(OrderRequestBody orderRequestBody)
     {
-        ArrayList<Orders> orders = orderRepository.findByUserId(orderRequestBody.getuserId());
+        ArrayList<Orders> orders = orderRepository.findByUser(userRepository.findById(orderRequestBody.getuserId()).get());
         Integer orderNumber = orders.size()+1;
         Orders order = new Orders();
         order.setOrderNumber(orderNumber);
-        order.setUserId(orderRequestBody.getuserId());
+        order.setUser(userRepository.findById(orderRequestBody.getuserId()).get());
+        order.setRestaurant(userRepository.findById(orderRequestBody.getRestaurantId()).get());
+//        order.setUserId(orderRequestBody.getuserId());
         order.setStatus("PENDING");
         order.setTotal(orderRequestBody.getOrderTotal());
+//        order.setRestaurantId(orderRequestBody.getRestaurantId());
         orderRepository.save(order);
 
-        order = orderRepository.findByUserIdAndOrderNumber(orderRequestBody.getuserId(), orderNumber);
+        order = orderRepository.findByUserAndOrderNumber(userRepository.findById(orderRequestBody.getuserId()).get(), orderNumber);
         for (Integer menuId: orderRequestBody.getMenuItemIds())
         {
             orderItemRepository.save(new OrderItem(order.getorderId(), menuId));

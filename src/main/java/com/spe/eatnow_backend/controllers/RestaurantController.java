@@ -1,6 +1,7 @@
 package com.spe.eatnow_backend.controllers;
 
 import com.spe.eatnow_backend.entities.MenuItem;
+import com.spe.eatnow_backend.entities.Orders;
 import com.spe.eatnow_backend.entities.User;
 import com.spe.eatnow_backend.requestBodies.MenuItemRequestBody;
 import com.spe.eatnow_backend.requestBodies.OrderRequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class RestaurantController {
