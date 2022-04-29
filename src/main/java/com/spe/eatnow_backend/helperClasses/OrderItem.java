@@ -5,6 +5,33 @@ public class OrderItem {
     private String status;
     private Integer total;
     private String restaurantName;
+    private String userName;
+    private String userAddress;
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public OrderItem(Integer orderId, String status, Integer total, String restaurantName, String userName, String userAddress) {
+        this.orderId = orderId;
+        this.status = status;
+        this.total = total;
+        this.restaurantName = restaurantName;
+        this.userName = userName;
+        this.userAddress = userAddress;
+    }
 
     public OrderItem(Integer orderId, String status, Integer total, String restaurantName) {
         this.orderId = orderId;

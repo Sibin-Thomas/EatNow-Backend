@@ -18,6 +18,18 @@ public class UserRequestBody {
     public String email;
     public String address;
     public String phone;
+    public String orderStatus;
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public UserRequestBody() {
+    }
 
     @Override
     public String toString() {

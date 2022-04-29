@@ -3,8 +3,8 @@ package com.spe.eatnow_backend.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "dining")
-public class Dining {
+@Table(name = "dining_item")
+public class DiningItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,11 +16,10 @@ public class Dining {
 
     public Integer restaurantId;
 
-    public Dining() {
+    public DiningItem() {
     }
 
-    public Dining(Integer diningId, String slot, Integer price, Integer restaurantId) {
-        this.diningId = diningId;
+    public DiningItem(String slot, Integer price, Integer restaurantId) {
         this.slot = slot;
         this.price = price;
         this.restaurantId = restaurantId;

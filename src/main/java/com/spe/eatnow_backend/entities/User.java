@@ -10,7 +10,8 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int user_id;
+    @Column(name = "user_id")
+    private int userId;
 
     private String username;
 
@@ -27,7 +28,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", type='" + type + '\'' +
@@ -67,12 +68,12 @@ public class User {
         this.email = email;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getuserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setuserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

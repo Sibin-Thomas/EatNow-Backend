@@ -1,19 +1,20 @@
 package com.spe.eatnow_backend.services;
 
+import com.spe.eatnow_backend.entities.*;
 import com.spe.eatnow_backend.entities.MenuItem;
-import com.spe.eatnow_backend.entities.OrderItem;
-import com.spe.eatnow_backend.entities.Orders;
-import com.spe.eatnow_backend.entities.User;
-import com.spe.eatnow_backend.repositories.MenuItemRepository;
-import com.spe.eatnow_backend.repositories.OrderItemRepository;
-import com.spe.eatnow_backend.repositories.OrderRepository;
-import com.spe.eatnow_backend.repositories.UserRepository;
-import com.spe.eatnow_backend.requestBodies.MenuItemRequestBody;
-import com.spe.eatnow_backend.requestBodies.OrderRequestBody;
+import com.spe.eatnow_backend.repositories.*;
+import com.spe.eatnow_backend.requestBodies.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 @Service
@@ -26,6 +27,10 @@ public class RestaurantService {
     private OrderRepository orderRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private DiningItemRepository diningItemRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public String addMenuItem(MenuItemRequestBody menuItemRequestBody)
     {
@@ -50,19 +55,12 @@ public class RestaurantService {
 
     public String placeOrder(OrderRequestBody orderRequestBody)
     {
-        ArrayList<Orders> orders = orderRepository.findByUser(userRepository.findById(orderRequestBody.getuserId()).get());
+        User user = userRepository.findById(orderRequestBody.getuserId()).get();
+        ArrayList<Orders> orders = orderRepository.findByUser(user);
         Integer orderNumber = orders.size()+1;
-        Orders order = new Orders();
-        order.setOrderNumber(orderNumber);
-        order.setUser(userRepository.findById(orderRequestBody.getuserId()).get());
-        order.setRestaurant(userRepository.findById(orderRequestBody.getRestaurantId()).get());
-//        order.setUserId(orderRequestBody.getuserId());
-        order.setStatus("PENDING");
-        order.setTotal(orderRequestBody.getOrderTotal());
-//        order.setRestaurantId(orderRequestBody.getRestaurantId());
+        Orders order = new Orders("PENDING", orderNumber, user, userRepository.findById(orderRequestBody.getRestaurantId()).get(), orderRequestBody.getOrderTotal());
         orderRepository.save(order);
-
-        order = orderRepository.findByUserAndOrderNumber(userRepository.findById(orderRequestBody.getuserId()).get(), orderNumber);
+        order = orderRepository.findByUserAndOrderNumber(user, orderNumber);
         for (Integer menuId: orderRequestBody.getMenuItemIds())
         {
             orderItemRepository.save(new OrderItem(order.getorderId(), menuId));
@@ -70,4 +68,28 @@ public class RestaurantService {
         return "success";
     }
 
+    public String updateOrderStatus(OrderRequestBody orderRequestBody)
+    {
+        Orders order = orderRepository.findByOrderId(orderRequestBody.getOrderId());
+        order.setStatus(orderRequestBody.getStatus());
+        orderRepository.save(order);
+        return "success";
+    }
+
+    public String addDiningItem(DiningItemRequestBody diningItemRequestBody)
+    {
+        diningItemRepository.save(new DiningItem(diningItemRequestBody.getSlot(), diningItemRequestBody.getRestaurantId(), diningItemRequestBody.getPrice()));
+        return "success";
+    }
+
+    public ArrayList<DiningItem> findDiningItemsByRestaurantId(DiningItemRequestBody diningItemRequestBody)
+    {
+        return diningItemRepository.findByRestaurantId(diningItemRequestBody.getRestaurantId());
+    }
+
+    public ArrayList<Comment> findComments(CommentRequestBody commentRequestBody)
+    {
+        System.out.println(commentRequestBody.toString());
+        return commentRepository.findByRestaurantId(commentRequestBody.getRestaurantId());
+    }
 }

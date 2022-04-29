@@ -7,6 +7,24 @@ public class OrderRequestBody {
     ArrayList<Integer> menuItemIds;
     Integer orderTotal;
     Integer restaurantId;
+    Integer orderId;
+    String status;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getRestaurantId() {
         return restaurantId;
