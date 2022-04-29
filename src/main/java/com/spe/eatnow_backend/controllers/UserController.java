@@ -38,8 +38,6 @@ public class UserController {
     public User findUser(@RequestBody UserRequestBody userRequestBody)
     {
         User user = userService.findUser(userRequestBody);
-        if (user == null)
-            System.out.println(user.toString());
         return user;
     }
 
