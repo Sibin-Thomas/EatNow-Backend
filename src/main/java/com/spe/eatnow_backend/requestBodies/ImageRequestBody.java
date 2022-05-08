@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.requestBodies;b
+package com.spe.eatnow_backend.requestBodies;
 
 import org.springframework.web.multipart.MultipartFile;
 

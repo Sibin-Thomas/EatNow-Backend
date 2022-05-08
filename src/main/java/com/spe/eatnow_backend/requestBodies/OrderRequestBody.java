@@ -1,5 +1,4 @@
-package com.spe.eatnow_backend.requestBodies;b
-
+package com.spe.eatnow_backend.requestBodies;
 import java.util.ArrayList;
 
 public class OrderRequestBody {
