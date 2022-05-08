@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.controllers;b
+package com.spe.eatnow_backend.controllers;
 
 import com.spe.eatnow_backend.entities.User;
 import com.spe.eatnow_backend.requestBodies.SearchRestaurantRequestBody;
