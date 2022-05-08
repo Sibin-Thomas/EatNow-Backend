@@ -49,8 +49,13 @@ public class RestaurantService {
 
     public ArrayList<User> findRestaurants(String searchValue)
     {
-        ArrayList<User> restaurantList = userRepository.findByType("Restaurant");
-        return restaurantList;
+        System.out.println(searchValue);
+        ArrayList<User> restaurantList = userRepository.findBySearchValue(searchValue);
+        ArrayList<User> prunedList = new ArrayList<>();
+        for (User user: restaurantList)
+            if (user.getType().equals("Restaurant"))
+                prunedList.add(user);
+        return prunedList;
     }
 
     public String placeOrder(OrderRequestBody orderRequestBody)

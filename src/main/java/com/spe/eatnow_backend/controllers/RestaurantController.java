@@ -60,7 +60,7 @@ public class RestaurantController {
 
     @PostMapping(value = "/findComments")
     @CrossOrigin(origins = "*")
-    public ArrayList<Comment> addDiningItem(@RequestBody CommentRequestBody commentRequestBody)
+    public ArrayList<Comment> findComments(@RequestBody CommentRequestBody commentRequestBody)
     {
         return restaurantService.findComments(commentRequestBody);
     }

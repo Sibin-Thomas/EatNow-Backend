@@ -13,6 +13,9 @@ public class CommentRequestBody {
         this.comment = comment;
     }
 
+    public CommentRequestBody() {
+    }
+
     public Integer getUserId() {
         return userId;
     }

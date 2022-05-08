@@ -18,7 +18,7 @@ public class SearchController {
     @CrossOrigin(origins = "*")
     public ArrayList<User> restaurantList(@RequestBody SearchRestaurantRequestBody searchRestaurantRequestBody)
     {
-        ArrayList<User> restaurantList = restaurantService.findRestaurants("");
+        ArrayList<User> restaurantList = restaurantService.findRestaurants(searchRestaurantRequestBody.getSearchValue());
         return restaurantList;
     }
 

@@ -10,6 +10,9 @@ public class OrderRequestBody {
     Integer orderId;
     String status;
 
+    public OrderRequestBody() {
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

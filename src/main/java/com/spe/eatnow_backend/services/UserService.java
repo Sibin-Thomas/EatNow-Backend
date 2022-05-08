@@ -53,6 +53,9 @@ public class UserService {
         ArrayList<Orders> order = orderRepository.findByUserAndRestaurant(userRepository.findByUserId(commentRequestBody.getUserId()), userRepository.findByUserId(commentRequestBody.getRestaurantId()));
         if (order.size() != 0) {
             commentRepository.save(new Comment(commentRequestBody.getUserId(), commentRequestBody.getRestaurantId(), commentRequestBody.getRating(), commentRequestBody.getComment()));
+            User user = userRepository.findByUserId(commentRequestBody.getRestaurantId());
+            user.setRating(commentRepository.findRating(commentRequestBody.getRestaurantId()));
+            userRepository.save(user);
             return "success";
         }
         return "failed";
