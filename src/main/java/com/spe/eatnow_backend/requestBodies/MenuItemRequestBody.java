@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.requestBodies;
+package com.spe.eatnow_backend.requestBodies;b
 
 public class MenuItemRequestBody {
     String name;

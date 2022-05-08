@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.repositories;b
+package com.spe.eatnow_backend.repositories;
 
 import com.spe.eatnow_backend.entities.Orders;
 import com.spe.eatnow_backend.entities.User;
