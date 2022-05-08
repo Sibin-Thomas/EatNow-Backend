@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.services;b
+package com.spe.eatnow_backend.services;
 
 import com.spe.eatnow_backend.entities.*;
 import com.spe.eatnow_backend.entities.MenuItem;
