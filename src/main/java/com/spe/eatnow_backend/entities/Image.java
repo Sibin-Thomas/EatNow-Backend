@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.entities;
+package com.spe.eatnow_backend.entities;b
 
 import javax.persistence.*;
 
