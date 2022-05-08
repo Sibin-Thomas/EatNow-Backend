@@ -31,6 +31,9 @@ public class MenuItemRequestBody {
         return restaurant_id;
     }
 
+    public MenuItemRequestBody() {
+    }
+
     public void setRestaurant_id(Integer restaurant_id) {
         this.restaurant_id = restaurant_id;
     }
