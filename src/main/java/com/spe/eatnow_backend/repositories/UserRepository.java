@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.repositories;
+package com.spe.eatnow_backend.repositories;b
 
 import com.spe.eatnow_backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;

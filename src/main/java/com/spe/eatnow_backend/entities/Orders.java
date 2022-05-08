@@ -1,4 +1,4 @@
-package com.spe.eatnow_backend.entities;b
+package com.spe.eatnow_backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
