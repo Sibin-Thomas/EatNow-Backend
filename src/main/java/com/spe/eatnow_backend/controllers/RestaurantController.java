@@ -1,11 +1,9 @@
 package com.spe.eatnow_backend.controllers;
 
-import com.spe.eatnow_backend.entities.Comment;
-import com.spe.eatnow_backend.entities.MenuItem;
-import com.spe.eatnow_backend.entities.Orders;
-import com.spe.eatnow_backend.entities.User;
+import com.spe.eatnow_backend.entities.*;
 import com.spe.eatnow_backend.helperClasses.OrderItem;
 import com.spe.eatnow_backend.requestBodies.*;
+import com.spe.eatnow_backend.responseBodies.BookingHistoryResponseBody;
 import com.spe.eatnow_backend.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -65,4 +63,24 @@ public class RestaurantController {
         return restaurantService.findComments(commentRequestBody);
     }
 
+    @PostMapping(value = "/updateCapacity")
+    @CrossOrigin(origins = "*")
+    public String updateCapacity(@RequestBody DiningCapacityRequestBody diningCapacityRequestBody)
+    {
+        return restaurantService.updateCapacity(diningCapacityRequestBody);
+    }
+
+    @PostMapping(value = "/bookTable")
+    @CrossOrigin(origins = "*")
+    public String bookTable(@RequestBody BookingRequestBody bookingRequestBody)
+    {
+        return restaurantService.bookTable(bookingRequestBody);
+    }
+
+    @PostMapping(value = "/getBookingHistory")
+    @CrossOrigin(origins = "*")
+    public ArrayList<BookingHistoryResponseBody> getBookingHistory(@RequestBody BookingRequestBody bookingRequestBody)
+    {
+        return restaurantService.getBookingHistory(bookingRequestBody);
+    }
 }

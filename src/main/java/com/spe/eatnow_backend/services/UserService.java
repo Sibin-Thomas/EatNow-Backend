@@ -1,9 +1,11 @@
 package com.spe.eatnow_backend.services;
 
 import com.spe.eatnow_backend.entities.Comment;
+import com.spe.eatnow_backend.entities.DiningCapacity;
 import com.spe.eatnow_backend.entities.Orders;
 import com.spe.eatnow_backend.entities.User;
 import com.spe.eatnow_backend.repositories.CommentRepository;
+import com.spe.eatnow_backend.repositories.DiningCapacityRepository;
 import com.spe.eatnow_backend.repositories.OrderRepository;
 import com.spe.eatnow_backend.repositories.UserRepository;
 import com.spe.eatnow_backend.requestBodies.CommentRequestBody;
@@ -31,11 +33,19 @@ public class UserService {
     private CommentRepository commentRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private DiningCapacityRepository diningCapacityRepository;
 
     public void addUser(UserRequestBody userRequestBody)
     {
         User user = new User(userRequestBody.getUsername(), userRequestBody.getPassword(), userRequestBody.getType(), userRequestBody.getAddress(), userRequestBody.getPhone(), userRequestBody.getEmail());
         userRepository.save(user);
+        if (userRequestBody.getType().equals("Restaurant"))
+        {
+            User fetchedUser = userRepository.findByUsernameAndPasswordAndType(userRequestBody.getUsername(), userRequestBody.getPassword(), userRequestBody.getType());
+            DiningCapacity diningCapacity = new DiningCapacity(0, fetchedUser.getuserId(), 0);
+            diningCapacityRepository.save(diningCapacity);
+        }
     }
 
     public User findUser(UserRequestBody user)

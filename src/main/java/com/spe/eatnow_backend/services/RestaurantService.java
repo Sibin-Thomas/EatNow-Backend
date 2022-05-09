@@ -4,6 +4,7 @@ import com.spe.eatnow_backend.entities.*;
 import com.spe.eatnow_backend.entities.MenuItem;
 import com.spe.eatnow_backend.repositories.*;
 import com.spe.eatnow_backend.requestBodies.*;
+import com.spe.eatnow_backend.responseBodies.BookingHistoryResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,10 @@ public class RestaurantService {
     private DiningItemRepository diningItemRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private DiningCapacityRepository diningCapacityRepository;
+    @Autowired
+    private  BookingRepository bookingRepository;
 
     public String addMenuItem(MenuItemRequestBody menuItemRequestBody)
     {
@@ -96,5 +101,61 @@ public class RestaurantService {
     {
         System.out.println(commentRequestBody.toString());
         return commentRepository.findByRestaurantId(commentRequestBody.getRestaurantId());
+    }
+
+    public String updateCapacity(DiningCapacityRequestBody diningCapacityRequestBody)
+    {
+        DiningCapacity diningCapacity = diningCapacityRepository.findByRestaurantId(diningCapacityRequestBody.getRestaurantId());
+        if (diningCapacity == null)
+        {
+            diningCapacity = new DiningCapacity(0, diningCapacityRequestBody.getRestaurantId(), diningCapacityRequestBody.getCapacity());
+            diningCapacityRepository.save(diningCapacity);
+        }
+        else
+        {
+            diningCapacity.setCapacity(diningCapacityRequestBody.getCapacity());
+            diningCapacityRepository.save(diningCapacity);
+        }
+        return "success";
+    }
+
+    public String bookTable(BookingRequestBody bookingRequestBody)
+    {
+        Integer restaurantCapacity = diningCapacityRepository.findByRestaurantId(bookingRequestBody.getRestaurantId()).getCapacity();
+        Integer bookingCount = bookingRepository.findBookingCount(bookingRequestBody.getRestaurantId(), bookingRequestBody.getDatetime());
+        bookingCount = bookingCount == null ? 0 : bookingCount;
+        if (restaurantCapacity > bookingCount)
+        {
+            Booking booking = new Booking(0, bookingRequestBody.getRestaurantId(), bookingRequestBody.getUserId(), bookingRequestBody.getDatetime());
+            bookingRepository.save(booking);
+        }
+        else
+            return "failed";
+        return "success";
+    }
+
+    public ArrayList<BookingHistoryResponseBody> getBookingHistory(BookingRequestBody bookingRequestBody)
+    {
+        ArrayList<BookingHistoryResponseBody> bookingHistoryResponseBodies = new ArrayList<>();
+        if (bookingRequestBody.getType().equals("Customer"))
+        {
+            ArrayList<Booking> bookings = bookingRepository.findByUserId(bookingRequestBody.getUserId());
+            for (Booking booking: bookings)
+            {
+                String restaurantName = userRepository.findByUserId(booking.getRestaurantId()).getUsername();
+                BookingHistoryResponseBody bookingHistoryResponseBody = new BookingHistoryResponseBody(booking.getDatetime(), restaurantName);
+                bookingHistoryResponseBodies.add(bookingHistoryResponseBody);
+            }
+        }
+        else {
+            ArrayList<Booking> bookings = bookingRepository.findByRestaurantId(bookingRequestBody.getRestaurantId());
+            for (Booking booking: bookings)
+            {
+                String userName = userRepository.findByUserId(booking.getUserId()).getUsername();
+                BookingHistoryResponseBody bookingHistoryResponseBody = new BookingHistoryResponseBody(booking.getDatetime(), userName);
+                bookingHistoryResponseBodies.add(bookingHistoryResponseBody);
+            }
+        }
+        return bookingHistoryResponseBodies;
     }
 }
