@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @RestController
 public class RestaurantController {
@@ -21,10 +23,12 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
+    private static final Logger logger= LogManager.getLogger(RestaurantController.class);
     @PostMapping(value = "/addMenuItem")
     @CrossOrigin(origins = "*")
     public String addMenuItem(@RequestBody MenuItemRequestBody menuItemRequestBody)
     {
+	logger.info("[Add Menu Item] - Invoked");
         return restaurantService.addMenuItem(menuItemRequestBody);
     }
 
@@ -32,6 +36,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public ArrayList<MenuItem> findMenuItems(@RequestBody MenuItemRequestBody menuItemRequestBody)
     {
+	logger.info("[Find Menu Items] - Invoked");
         return restaurantService.findByRestaurantId(menuItemRequestBody.getRestaurant_id());
     }
 
@@ -39,6 +44,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public String placeOrder(@RequestBody OrderRequestBody orderRequestBody)
     {
+	logger.info("[Place Order] - Invoked");
         return restaurantService.placeOrder(orderRequestBody);
     }
 
@@ -46,6 +52,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public String updateOrderStatus(@RequestBody OrderRequestBody orderRequestBody)
     {
+	logger.info("[Update Order Status] - Invoked");
         return restaurantService.updateOrderStatus(orderRequestBody);
     }
 
@@ -53,6 +60,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public String addDiningItem(@RequestBody DiningItemRequestBody diningItemRequestBody)
     {
+	logger.info("[Add Dining Item] - Invoked");
         return restaurantService.addDiningItem(diningItemRequestBody);
     }
 
@@ -60,6 +68,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public ArrayList<Comment> findComments(@RequestBody CommentRequestBody commentRequestBody)
     {
+	logger.info("[Find Comments] - Invoked");
         return restaurantService.findComments(commentRequestBody);
     }
 
@@ -67,6 +76,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public String updateCapacity(@RequestBody DiningCapacityRequestBody diningCapacityRequestBody)
     {
+	logger.info("[Update Capacity] - Invoked");
         return restaurantService.updateCapacity(diningCapacityRequestBody);
     }
 
@@ -74,6 +84,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public String bookTable(@RequestBody BookingRequestBody bookingRequestBody)
     {
+	logger.info("[Book Table] - Invoked");
         return restaurantService.bookTable(bookingRequestBody);
     }
 
@@ -81,6 +92,7 @@ public class RestaurantController {
     @CrossOrigin(origins = "*")
     public ArrayList<BookingHistoryResponseBody> getBookingHistory(@RequestBody BookingRequestBody bookingRequestBody)
     {
+	logger.info("[Get Booking History] - Invoked");
         return restaurantService.getBookingHistory(bookingRequestBody);
     }
 }

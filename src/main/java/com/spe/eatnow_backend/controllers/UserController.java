@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger logger= LogManager.getLogger(UserController.class);
 
     @PostMapping(value = "/addUser")
     @CrossOrigin(origins = "*")
@@ -37,6 +41,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public User findUser(@RequestBody UserRequestBody userRequestBody)
     {
+        logger.info("[Find User] - Invoked");
         User user = userService.findUser(userRequestBody);
         return user;
     }
@@ -45,7 +50,8 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public User findUser1(@RequestBody UserRequestBody userRequestBody)
     {
-        User user = userService.findUser(userRequestBody.getUser_id());
+	logger.info("[Find UserById] - Invoked");
+	User user = userService.findUser(userRequestBody.getUser_id());
         System.out.println(user.getUsername());
         return user;
     }
@@ -54,6 +60,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public List<OrderItem> fetchUserOrders(@RequestBody UserRequestBody userRequestBody)
     {
+	logger.info("[Find User Orders] - Invoked");
         User user = userService.findUser(userRequestBody.getUser_id());
         FetchOrderResponseBody fetchOrderResponseBody = new FetchOrderResponseBody(user);
         return fetchOrderResponseBody.getOrderItems();
@@ -64,6 +71,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public List<OrderItem> restaurantOrderHistory(@RequestBody UserRequestBody userRequestBody)
     {
+	logger.info("[Restaurant Order History] - Invoked");
         User user = userService.findUser(userRequestBody.getUser_id());
         ArrayList<String> acceptedStatuses = new ArrayList<>();
         if (userRequestBody.getOrderStatus().equals("pending"))
@@ -81,6 +89,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public String addComments(@RequestBody CommentRequestBody commentRequestBody)
     {
+	logger.info("[Add Comments] - Invoked");
         return userService.addComment(commentRequestBody);
     }
 
@@ -88,6 +97,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public Boolean isCustomer(@RequestBody IsCustomerRequestBody isCustomerRequestBody)
     {
+	logger.info("[Is Customer] - Invoked");
         return userService.isCustomer(isCustomerRequestBody);
     }
 
@@ -95,6 +105,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public ArrayList<String> addImage(ImageRequestBody imageRequestBody) throws IOException
     {
+
         if (imageRequestBody.getRestaurantId() == imageRequestBody.getUserId() || isCustomer(new IsCustomerRequestBody(imageRequestBody.getUserId(), imageRequestBody.getRestaurantId())))
            return userService.addImage(imageRequestBody);
         return null;
