@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,8 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public String addUser(@RequestBody UserRequestBody userRequestBody)
     {
+        String encodedPassword = Base64.getEncoder().encodeToString(userRequestBody.getPassword().getBytes());
+        userRequestBody.setPassword(encodedPassword);
         userService.addUser(userRequestBody);
         return userRequestBody.getAddress();
     }
@@ -42,6 +45,8 @@ public class UserController {
     public User findUser(@RequestBody UserRequestBody userRequestBody)
     {
         logger.info("[Find User] - Invoked");
+        String encodedPassword = Base64.getEncoder().encodeToString(userRequestBody.getPassword().getBytes());
+        userRequestBody.setPassword(encodedPassword);
         User user = userService.findUser(userRequestBody);
         return user;
     }
@@ -118,3 +123,4 @@ public class UserController {
         return userService.getImages(imageRequestBody);
     }
 }
+    
